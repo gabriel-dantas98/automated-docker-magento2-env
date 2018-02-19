@@ -1,0 +1,12 @@
+mysql-magento2:
+ image: gabsdevops/mysqlgento:latest
+ container_name: mysql-magento2
+
+magento2:
+  build: .
+  links:
+   - mysql-magento2
+  container_name: magento2
+  volumes:
+   - /home/gabs/devops/gabsLab/magento-lab/magentoCode/src:/var/www/html:z
+

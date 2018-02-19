@@ -1,0 +1,21 @@
+{
+  "name": "nogentostart",
+  "version": "1.0.0",
+  "description": "Pré-requisitos para ter nosso ambiente de desenvolvimento Magento 2!",
+  "main": "b4agroup.js",
+  "dependencies": {
+    "chalk": "^2.3.1",
+    "figlet": "^1.2.0",
+    "inquirer": "^5.1.0",
+    "openurl": "^1.1.1",
+    "opn": "^5.2.0",
+    "replace": "^0.3.0",
+    "shelljs": "^0.8.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
