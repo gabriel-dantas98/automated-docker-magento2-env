@@ -33,13 +33,16 @@ if (OS == 'linux') {
 
 if(process.argv[2] == 'magento2'){
     if (process.argv[3] == 'install'){
-       install(OS);
+        install(OS);
     }else if (process.argv[3] == 'setFolder' || process.argv[3] == 'setfolder'){
-     inputPath();
-    }else if (process.argv[3] == 'start') {
-     start();
-    }else if (process.argv[3] == 'info') {
-     magentoInfo();
+        inputPath();
+    }else if (process.argv[3] == 'start'){
+        start();
+    }else if (process.argv[3] == 'info'){
+        magentoInfo();
+    }else if (process.argv[3] == 'ls'){
+        shell.exec("docker-compose ps");
+        console.log("\n");  
     }else if (process.argv[3] == 'help') {
         helpMe();
     }else{
@@ -81,7 +84,8 @@ function install(system) {
                //insere no final do arquivo do bashrc o alias para executar o .js
 
                console.group();
-               console.log("Ferramenta " + chalk.hex("#FF1493").bold("b4atech")  + " Habilitada")
+               console.log("Ferramenta " + chalk.hex("#FF1493").bold("b4atech")  + " Habilitada");
+               console.log("Reinicia o seu terminal para que a ferramenta passe a funcionar 0/" + "\n");
                console.groupEnd();
 
           }else{
@@ -242,7 +246,7 @@ function magentoConfig(ipMagento, ipMySql) {
 
 function magentoInfo(){
 
-    if(shell.exec("docker exec -i magento2 bin/mangeto -v", {silent: true}).code == 0){
+    if(shell.exec("docker exec -i magento2 bin/magento list", {silent: true}).code == 0){
         let adminUrl = shell.exec("docker exec -i magento2 bin/magento info:adminuri | cut -d' ' -f 3", { silent: true }).stdout;
         adminUrl = adminUrl.replace("/", "");
         let siteUrl = shell.exec("docker exec -i magento2 bin/magento config:show  | grep base_url | cut -d' ' -f 3", { silent: true }).stdout;
@@ -265,6 +269,8 @@ function helpMe() {
      console.group();
      console.log("install      Faz todo o processo de instalação dos ambiente");
      console.log("start        Sobe todos os containers, mesmo que (docker-compose up -d)");
+     console.log("setFolder    Comando para poder configurar o diretorio de desenvolvimento (configura o volume docker)");
+     console.log("info         Mostra uma lista de informações do magento (comando executado no container do magento)");
      console.log("ls           Lista os containers-compose onlines, mesmo que (docker-compose ps)");
      
 }
