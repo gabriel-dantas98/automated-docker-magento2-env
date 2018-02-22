@@ -70,7 +70,7 @@ function install(system) {
      console.log(chalk.hex("#FFD700").bold("Depois de ter certeza que já tem tudo acima instalado") + "\n");
      console.groupEnd();
 
-     if (system == 'linux' || system == 'darwin') {
+     if (system == 'linux') {
      
           let aliasCommand = 'alias b4atech="'+ 'node ' + pwd + '/b4agroup.js"';
           //monta a string do comando alias que seria inserido no .bashrc
@@ -93,6 +93,30 @@ function install(system) {
                console.log(chalk.white.bold("Você já possui a ferramenta b4atech \n"));
                console.groupEnd();   
           }
+
+     } else if (system == 'darwin'){
+
+         let aliasCommand = 'alias b4atech="' + 'node ' + pwd + '/b4agroup.js"';
+         //monta a string do comando alias que seria inserido no .bashrc
+
+         let bashrcPath = os.homedir() + '/.bash_profile';
+
+         if (shell.exec("cat " + bashrcPath + " | grep b4atech", { silent: true }).code == 1) {
+             //se NÃO existir a linha do b4atech no .bashrc insere a linha 
+
+             shell.exec("echo " + "'" + aliasCommand + "'" + " >> " + bashrcPath);
+             //insere no final do arquivo do bashrc o alias para executar o .js
+
+             console.group();
+             console.log("Ferramenta " + chalk.hex("#FF1493").bold("b4atech") + " Habilitada");
+             console.log("Reinicia o seu terminal para que a ferramenta passe a funcionar 0/" + "\n");
+             console.groupEnd();
+
+         } else {
+             console.group();
+             console.log(chalk.white.bold("Você já possui a ferramenta b4atech \n"));
+             console.groupEnd();
+         }
 
      } else if (system == 'win32') {
           console.log("windows install em desenvolvimento");
@@ -291,7 +315,7 @@ function openInBrowser(ip) {
     ipContainer = ip;
     incrementSecondscount = 4;
     incrementSecondsMsg = "Para abrirmos o Magento em seu navegador! 0/"
-
+        .gitignore
     let countDown = setInterval(incrementSeconds, 1000);
 
 }
