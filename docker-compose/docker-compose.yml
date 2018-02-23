@@ -9,6 +9,6 @@ magento2:
    - mysql-magento2
   container_name: magento2
   volumes:
-   - /home/gabs/devops/gabsLab/magento-lab/magentoCode/magento2:/var/www/html:z
+   - /Users/b4atech/Documents/magento2:/var/www/html:z
   ports:
    - 8085:80

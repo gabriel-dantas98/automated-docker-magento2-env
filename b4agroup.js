@@ -24,11 +24,11 @@ if (OS == 'linux') {
      console.log(chalk.blue.bold("\n" + 'Esta usando linux! Saiba que já tem nosso respeito xD!') + "\n");
 
 } else if (OS == 'win32') {
-     console.log(chalk.blue.bold('Ta usando Windows.. Ok, não vamos te julgar :P'));
+     console.log("\n" + chalk.blue.bold('Ta usando Windows.. Ok, não vamos te julgar :P') + "\n");
 
 } else if (OS == 'darwin') {
 
-     console.log(chalk.blue.bold('Ui! Estamos em um MacOs xD'));
+     console.log(chalk.blue.bold("\n" + 'Ui! Estamos em um MacOs xD') + "\n");
 } 
 
 if(process.argv[2] == 'magento2'){
@@ -172,24 +172,34 @@ function inputPath() {
         let path = (JSON.stringify(answers, null, '  '));
         let parsePath = (JSON.parse(path));
         let magentoPath = parsePath.choice;
-        //console.log(magentoPath);
+        console.log(magentoPath);
         setMagentoFolder(magentoPath);
     });
 }
 
 function setMagentoFolder(PATH){
-    
+
+    console.log(shell.exec("pwd").stdout);
+    let volumeLine = shell.exec("cat ./docker-compose/docker-compose.yml | grep :/var/www/html:z", {silent: true}).stdout;
+    let volumeSplited = volumeLine.split(":");
+    let localFolder = volumeSplited[0].split(" ");
+  
+
     replace({
-                regex: "MAGENTO_FOLDER",
+                regex: localFolder[4],
                 replacement: PATH,
-                paths: [ __dirname + '/docker-compose/docker-compose.yml'],
+                paths: ['./docker-compose/docker-compose.yml'],
                 recursive: true,
                 silent: true,
             });
             if (shell.cd(PATH, {silent: true}).code == 0){
-
+                console.log("\n" + "Aplicando Permissoes em seus diretorios");
                 shell.exec("sudo chmod 777 bin/magento");
-                shell.exec("sudo chown -R root * && sudo chgrp -R apache *");
+                shell.exec("sudo chmod -R 777 app/*")     
+                shell.exec("sudo chmod -R 777 var/*")
+                shell.exec("sudo chmod -R 777 pub/*")
+                shell.exec("sudo chmod -R 777 generated/*")
+                shell.exec("sudo chown -R root *");
                 console.log("\n" + "Permissões, mudanças de Owner e Group do diretório: " + chalk.green.bold("OK") + "\n")
 
             }else{
@@ -204,7 +214,7 @@ function setMagentoFolder(PATH){
 
 function dockerComposeUp() {
 
-     shell.cd("docker-compose");
+     shell.cd(__dirname + "/docker-compose");
      //Entra no diretório docker-compose, pois é de la que os comandos compose tem que ser executados
      
     console.log(chalk.blue.bold("docker-compose -") + chalk.green.bold("START") + '\n');
@@ -224,7 +234,7 @@ function dockerComposeUp() {
      console.log("\n" + chalk.white.bold("Magento - ") + chalk.hex("#FFA500").bold(ipMagento));
      console.log(chalk.white.bold("MySQL - ") + chalk.hex("#4693d8").bold(ipMySql) + "\n");
 
-     magentoConfig(ipMagento, ipMySql);
+     //magentoConfig(ipMagento, ipMySql);
      //IMPORTANT!! 
 
      openInBrowser(ipMagento);
