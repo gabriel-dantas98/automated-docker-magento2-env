@@ -1,3 +1,8 @@
+## [Descontinuado] :cry:
+
+## Objetivo: Projeto para o desenvolvimento de um ambiente de desenvolvimento Magento 2 + Mysql localmente, utilizando uma ferramenta de CLI.
+
+
 Pré-requisitos para ter nosso ambiente de desenvolvimento **Magento 2**!
 
 ### Antes de qualquer coisa certifique-se que tem o node acima do **8.4** em sua máquina e use o `npm install`;
